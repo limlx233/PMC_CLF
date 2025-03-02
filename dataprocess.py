@@ -40,8 +40,14 @@ def calculate_result(df):
     result['产能负荷率'] = result['产能负荷率'].apply(lambda x: '{:.2f}%'.format(x * 100))  
     return result
 
+import matplotlib.font_manager as fm
+
+# 添加字体搜索路径
+font_path = "font/MSYH.TTC"
+fm.fontManager.addfont(font_path)
+# 设置使用该字体
+plt.rcParams['font.family'] = 'Microsoft YaHei'  # 替换为字体的名称
 # 设置 matplotlib 支持中文显示
-plt.rcParams['font.sans-serif'] = ['SimHei']  # 使用黑体字体
 plt.rcParams['axes.unicode_minus'] = False  # 解决负号显示问题
 
 def plot_production_line_load_rate(df, mon,line_column='产线', load_rate_column='产能负荷率'):
