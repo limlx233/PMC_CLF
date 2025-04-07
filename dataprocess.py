@@ -24,6 +24,10 @@ def load_file(files):
         df = df.dropna(subset=['日期','产量定额'])
         # 将批号列转换为字符串类型
         df['批号'] = df['批号'].astype(str)
+        # 筛选 12小时的 "大班"
+        condition = df['班级'].str.startswith('大')
+        # 根据条件更新产量定额列
+        df.loc[condition, '产量定额'] = df.loc[condition, '产量定额'] * 1.5
         # 将处理后的 DataFrame 添加到列表中
         dfs.append(df)
     if dfs:
@@ -31,7 +35,7 @@ def load_file(files):
         return combined_df
     else:
         return None
-    
+
 
 def calculate_result(df):
     result = df.groupby('产线').agg({'产量合计': 'sum','产量定额': 'sum' }).reset_index()
